@@ -23,14 +23,6 @@ public class GoogleTradutor {
         this.en = en;
     }
     
-    public void paginaPrincipalFirefox() throws Exception {
-        final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_17);
-        final HtmlPage page = webClient.getPage("http://sc.senai.br");
-        System.out.println("HtmlUnit - Welcome to HtmlUnit: "+ page.getTitleText());
-
-        webClient.closeAllWindows();
-    }
-    
     public String traduzir() throws Exception {
         String saida = "";
         try{
