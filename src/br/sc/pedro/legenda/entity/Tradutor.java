@@ -85,7 +85,7 @@ public class Tradutor implements Runnable {
            log = "traduzindo: '" + string + "' para '";
             
 
-            Robo r = new Robo(string);
+            GoogleTradutor r = new GoogleTradutor(string);
             string = r.traduzir(this.p);
 
             if(string == null){

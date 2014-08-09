@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
  *
  * @author robson
  */
-public class Robo {
+public class GoogleTradutor {
     
     
-    private String en = "本森？在吗";
+    private String en = "";
 
-    public Robo(String en) {
+    public GoogleTradutor(String en) {
         this.en = en;
     }
     
