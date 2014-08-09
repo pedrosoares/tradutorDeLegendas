@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package robo;
+package br.sc.pedro.legenda.entity;
 
 import br.sc.pedro.legenda.entity.Proxy;
 import br.sc.pedro.legenda.view.ProgressBar;

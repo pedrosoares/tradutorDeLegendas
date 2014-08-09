@@ -9,7 +9,7 @@ package br.sc.pedro.legenda.view;
 import br.sc.pedro.legenda.entity.Legenda;
 import br.sc.pedro.legenda.entity.Proxy;
 import javax.swing.table.DefaultTableModel;
-import robo.Tradutor;
+import br.sc.pedro.legenda.entity.Tradutor;
 
 /**
  *
