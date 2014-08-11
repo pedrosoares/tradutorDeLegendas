@@ -287,6 +287,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         model.setValueAt(model.getRowCount(), model.getRowCount()-1, 0);
         model.setValueAt(l, model.getRowCount()-1, 1);
         Legendas.setModel(model);
+        
+        traduzirTodos.setEnabled(true);
     }//GEN-LAST:event_AdicionarjButtonActionPerformed
 
     private void LegendasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_LegendasFocusGained
