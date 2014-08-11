@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  *
@@ -59,7 +60,7 @@ public class Tradutor implements Runnable {
     }
 
     private void getFalas() {
-        String temp = "";
+        /*String temp = "";
         for (String string : legenda) {
             if (string.equals("")) {
                 falas.add(temp);
@@ -70,6 +71,25 @@ public class Tradutor implements Runnable {
             }
 
             temp = string;
+        }*/
+        try{
+            int i = 0;
+            while ( i < legenda.size()) {
+                if(NumberUtils.isNumber(legenda.get(i))){
+                    i += 2;
+                    String frase = legenda.get(i)+" | ";
+                    i++;
+                    while(!legenda.get(i).equals("")){
+                        frase += legenda.get(i)+" | ";
+                        i++;
+                    }
+                    falas.add(frase);
+                }else{
+                    i++;
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
 
         //progresso.setMaximum(falas.size());
@@ -126,20 +146,30 @@ public class Tradutor implements Runnable {
     }
 
     private void remontar() {
-        String temp = "";
-        int j = 0;
-        for (int i = 0; i < legenda.size(); i++) {
-            String string = legenda.get(i);
-            if (string.equals("")) {
-                legenda.set(i - 1, falas.get(j));
-                j++;
-            }
+        for (String string : falas) {
+            System.out.println(string);
+        }
+        
+        int i = 0;
+        int l = 0;
+        while ( i < legenda.size()) {
+            if(NumberUtils.isNumber(legenda.get(i))){
+                String[] frases = this.falas.get(l).split("\\|");
+                i += 2;
+                if(frases.length >= 2){
+                    for (int j = 0; j < frases.length; j++) {
+                        legenda.set(i, frases[j]);
+                        i++;
+                    }
+                }else{
 
-            if (i == legenda.size() - 1) {
-                legenda.set(i, falas.get(falas.size() - 1));
+                    legenda.set(i, falas.get(l).replace("|", ""));
+                    i++;
+                }
+                l++;
+            }else{
+                i++;
             }
-
-            temp = string;
         }
     }
 

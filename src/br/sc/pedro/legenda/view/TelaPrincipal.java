@@ -325,6 +325,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+         // TODO add your handling code here:
+        LoadFile lf = new LoadFile(this, rootPaneCheckingEnabled);
+        lf.setVisible(true);
+        Legenda l = new Legenda(lf.getArquivo());
+        
+        DefaultTableModel model = (DefaultTableModel) Legendas.getModel();  
+        model.setNumRows(model.getRowCount()+1);
+        model.setValueAt(model.getRowCount(), model.getRowCount()-1, 0);
+        model.setValueAt(l, model.getRowCount()-1, 1);
+        Legendas.setModel(model);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
