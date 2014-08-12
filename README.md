@@ -1,4 +1,4 @@
-Tradutor de Legendas .STR
+Tradutor de Legendas .STR v.1.19
 ==================
 
 Sistema em Java que Pega legendas em outros idiomas e traduz para português. Versão Alfa.
