@@ -3,10 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.sc.pedro.legenda.view;
 
 import br.sc.pedro.legenda.entity.Proxy;
+import java.beans.Statement;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
 
 /**
  *
@@ -14,48 +24,22 @@ import br.sc.pedro.legenda.entity.Proxy;
  */
 public class Configuracao extends javax.swing.JDialog {
 
-    
     Proxy p = new Proxy(false);
+
     /**
      * Creates new form Configuracao
      */
     public Configuracao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        if(jCheckBox1.isSelected()){
-            servidor.setEnabled(true);
-            servidor.setEditable(true);
-            usuario.setEnabled(true);
-            senha.setEnabled(true);
-        }else{
-            servidor.setEnabled(false);
-            usuario.setEnabled(false);
-            senha.setEnabled(false);
-        }
+        
     }
 
     public Configuracao(TelaPrincipal parent, boolean modal, Proxy p) {
         super(parent, modal);
         initComponents();
-        this.p = p;
-        if(p.UsarProxy()){
-            servidor.setEnabled(true);
-            porta.setEnabled(true);
-            servidor.setEditable(true);
-            usuario.setEnabled(true);
-            senha.setEnabled(true);
-            
-            servidor.setText(p.getServidor());
-            senha.setText(p.getSenha());
-            usuario.setText(p.getUsuario());
-            
-            jCheckBox1.setSelected(true);
-        }else{
-            porta.setEnabled(false);
-            servidor.setEnabled(false);
-            usuario.setEnabled(false);
-            senha.setEnabled(false);
-        }
+        ler();
+        
     }
 
     /**
@@ -205,22 +189,25 @@ public class Configuracao extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         if (jCheckBox1.isSelected()) {
-            this.p = new Proxy(true, servidor.getText(), usuario.getText(), senha.getText(), porta.getText()); 
-        }else{
+            this.p = new Proxy(true, servidor.getText(), usuario.getText(), senha.getText(), porta.getText());
+            salvar();
+        } else {
             this.p = new Proxy(false);
+            salvar();
         }
+        
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-        if(jCheckBox1.isSelected()){
+        if (jCheckBox1.isSelected()) {
             servidor.setEnabled(true);
             servidor.requestFocus();
             usuario.setEnabled(true);
             senha.setEnabled(true);
             porta.setEnabled(true);
-        }else{
+        } else {
             servidor.setEnabled(false);
             usuario.setEnabled(false);
             senha.setEnabled(false);
@@ -288,5 +275,70 @@ public class Configuracao extends javax.swing.JDialog {
 
     Proxy getProxy() {
         return this.p;
+    }
+
+    private void salvar() {
+            XMLEncoder e;
+            try {
+                e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("config.xml")));
+                String[] a = new String[5];
+                a[0] = p.getServidor();
+                a[1] = p.getPorta();
+                a[2] = p.getUsuario();
+                a[3] = p.getSenha();
+                a[4] = p.isUsarProxy().toString();
+                Object o = a;
+                e.writeObject(o);
+                e.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Configuracao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+
+    private void ler() {
+        XMLDecoder decoder;
+        try {
+            decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream("config.xml")));
+
+            String[] o = (String[]) decoder.readObject();
+            decoder.close();
+            
+            Boolean b;
+            
+            if(o[4].equalsIgnoreCase("true")){
+                b = true;
+            }else{
+                b = false;
+            }
+            
+            this.p = new Proxy(b, o[0], o[2], o[3], o[1]);
+            
+            System.out.println(o[1]);
+            
+            
+            if (b) {
+                servidor.setEnabled(true);
+                servidor.requestFocus();
+                usuario.setEnabled(true);
+                senha.setEnabled(true);
+                porta.setEnabled(true);
+
+                servidor.setText(p.getServidor());
+                senha.setText(p.getSenha());
+                usuario.setText(p.getUsuario());
+                porta.setText(p.getPorta());
+
+                jCheckBox1.setSelected(true);
+            } else {
+                porta.setEnabled(false);
+                servidor.setEnabled(false);
+                usuario.setEnabled(false);
+                senha.setEnabled(false);
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Configuracao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
